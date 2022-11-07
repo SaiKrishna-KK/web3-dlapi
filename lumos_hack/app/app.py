@@ -1,9 +1,10 @@
-import pandas as pd
 import numpy as np
 import tensorflow as tf
 import yfinance as yf
 import uvicorn
 from fastapi import FastAPI
+
+
 
 app = FastAPI()
 def fun_predict(list_inputs, path ):
@@ -18,6 +19,9 @@ def fun_predict(list_inputs, path ):
   return output[0]
 
 def get_current_price(symbol):
+    '''
+    gets the current price of the currency.
+    '''
     ticker = yf.Ticker(symbol)
     todays_data = ticker.history(period='1d')
     list_out = [round(todays_data['Open'][0],3), round(todays_data['High'][0],3), round(todays_data['Low'][0],3), round(todays_data['Close'][0],3)]
@@ -47,9 +51,10 @@ def climate_model(currency):
     final_val = 4
   else:
     final_val = 3
-#   print(y_today, y_future, h_per, l_per, c_per, final_val)
-  return final_val
 
+  return final_val
+  
+@tf.function
 @app.get("/")  
 def get_four_climate():
     j= 0
@@ -62,4 +67,5 @@ def get_four_climate():
     return{"AAVE": climatex[0],"ADM": climatex[1],"QUICK": climatex[2],"SUSHI": climatex[3]}
 
 if __name__ == '__main__':
-      uvicorn.run(app, host = '0.0.0.0', port =3000)
+      uvicorn.run(app, host = '0.0.0.0', port =80)
+

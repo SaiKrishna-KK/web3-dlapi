@@ -1,0 +1,4 @@
+yfinance==0.1.85
+numpy==1.21.6
+tensorflow==2.10
+pathlib==1.0
